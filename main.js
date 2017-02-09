@@ -152,21 +152,23 @@ function gravity()
   var tempObjects = [];
   var distance;
   var acceleration;
+  var dx,dy,o1,o2;
+ 
   
   //Uneccesary optimization
   var objectsLength = objects.length
   
   for (var i = 0; i < objectsLength; i++)
   {
-    var o1 = objects[i];
+    o1 = objects[i];
     for (var j = 0; j < objectsLength; j++) {
-      var o2 = objects[j];
+      o2 = objects[j];
       if(i!=j && !o1.merged)
       {
-        var dx = o2.x - o1.x;
-        var dy = o2.y - o1.y;
-
-        distance = Math.sqrt(dx*dx + dy*dy);
+        dx = (o2.x - o1.x);
+        dy = (o2.y - o1.y);
+		distance = Math.sqrt(dx*dx + dy*dy);
+		
         if(distance<(o1.radius+o2.radius) && !o1.merged && !o2.merged)
         {
 			createNewObject(o1, o2, tempObjects);
@@ -178,7 +180,6 @@ function gravity()
       }
     }
   }
-
   for (var i = 0; i < objects.length; i++)
   {
     if(objects[i].merged)
