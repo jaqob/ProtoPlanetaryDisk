@@ -20,11 +20,13 @@ var ctx;
 
 var showTracks = false;
 var PIx2 = Math.PI*2;
+var avgSpeed;
 
 function startSimulation()
 {
   G = document.getElementById("inputG").value;
   var nrObjects = document.getElementById("nrObjects").value;
+  avgSpeed = document.getElementById("avgSpeed").value/100;
 
   var div = document.getElementById("configDiv");
 
@@ -37,12 +39,12 @@ function startSimulation()
 
 
 
-  createProtoDisk(nrObjects);
+  createProtoDisk(nrObjects, avgSpeed);
   calculateViewportOffset(maxMassObject);
   update();
 }
 
-function createProtoDisk(nrObjects)
+function createProtoDisk(nrObjects, avgSpeed)
 {
   var startX = 0;
   var startY = 0;
@@ -55,7 +57,7 @@ function createProtoDisk(nrObjects)
     var x = (5+200*rand2)*Math.cos(rand);
     var y = (5+200*rand2)*Math.sin(rand);
     var distance = Math.sqrt(x*x+y*y);
-    objects.push(new Object(Math.random(), startX+x, startY+y, -y*(distance/100000), x*(distance/100000)));
+    objects.push(new Object(Math.random(), startX+x, startY+y, -y*(distance/100000)*avgSpeed, x*(distance/100000)*avgSpeed));
   }
 }
 
