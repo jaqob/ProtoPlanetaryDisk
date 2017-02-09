@@ -118,8 +118,8 @@ function update()
 
       for (var index2 = 0; index2 < o.trackX.length; index2++)
       {
-        ctx.moveTo(Math.floor(o.trackX[index2%trackIndex]/zoom+offsetDeltaX), Math.floor(o.trackY[index2%trackIndex]/zoom+offsetDeltaY));
-        ctx.lineTo(Math.floor(o.trackX[index2%trackIndex]/zoom+offsetDeltaX)+0.4, Math.floor(o.trackY[index2%trackIndex]/zoom+offsetDeltaY)+0.4);
+        ctx.moveTo(Math.floor(o.trackX[index2]/zoom+offsetDeltaX), Math.floor(o.trackY[index2]/zoom+offsetDeltaY));
+        ctx.lineTo(Math.floor(o.trackX[index2]/zoom+offsetDeltaX)+0.4, Math.floor(o.trackY[index2]/zoom+offsetDeltaY)+0.4);
       }
       ctx.closePath();
       ctx.stroke();
