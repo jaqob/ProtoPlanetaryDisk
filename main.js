@@ -107,12 +107,11 @@ function update()
   ctx.fillText("G: " + G,10,60);
 
 
-
   for (var index = 0; index < objects.length; index++)
   {
     var o = objects[index];
-    var tx = (o.x/zoom+offsetDeltaX)
-    var ty = (o.y/zoom+offsetDeltaY)
+    var tx = Math.trunc((o.x/zoom+offsetDeltaX));
+    var ty = Math.trunc((o.y/zoom+offsetDeltaY));
     if(tx < 0 || tx > c.width ||  ty < 0 || ty > c.height)
     {
 
@@ -134,8 +133,8 @@ function update()
 
       for (var index2 = 0; index2 < o.trackX.length; index2++)
       {
-        ctx.moveTo(o.trackX[index2%trackIndex]/zoom+offsetDeltaX, o.trackY[index2%trackIndex]/zoom+offsetDeltaY);
-        ctx.lineTo(o.trackX[index2%trackIndex]/zoom+offsetDeltaX+0.4, o.trackY[index2%trackIndex]/zoom+offsetDeltaY+0.4);
+        ctx.moveTo(Math.floor(o.trackX[index2%trackIndex]/zoom+offsetDeltaX), Math.floor(o.trackY[index2%trackIndex]/zoom+offsetDeltaY));
+        ctx.lineTo(Math.floor(o.trackX[index2%trackIndex]/zoom+offsetDeltaX)+0.4, Math.floor(o.trackY[index2%trackIndex]/zoom+offsetDeltaY)+0.4);
       }
       ctx.closePath();
       ctx.stroke();
@@ -181,23 +180,7 @@ function gravity()
 
         if(distance<(o1.radius+o2.radius) && !o1.merged && !o2.merged)
         {
-          var newObject = new Object(0,0,0,0,0);
-          newObject.x=(o1.x*o1.mass+o2.x*o2.mass)/(o1.mass+o2.mass);
-          newObject.y=(o1.y*o1.mass+o2.y*o2.mass)/(o1.mass+o2.mass);
-          newObject.vx=(o1.vx*o1.mass+o2.vx*o2.mass)/(o1.mass+o2.mass);
-          newObject.vy=(o1.vy*o1.mass+o2.vy*o2.mass)/(o1.mass+o2.mass);
-          newObject.radius=Math.pow(((3*(o1.mass+o2.mass))/(4*Math.PI)),1/3);
-          newObject.mass = (o1.mass+o2.mass);
-
-          if(o1.mass > 5 || o2.mass > 5)
-          {
-            newObject.trackX = o1.mass > o2.mass ? o1.trackX : o2.trackX;
-            newObject.trackY = o1.mass > o2.mass ? o1.trackY : o2.trackY;
-          }
-
-          o1.merged=true;
-          o2.merged=true;
-          tempObjects.push(newObject);
+			createNewObject(o1, o2, tempObjects);
         }
 
         acceleration = G*o2.mass/(distance*distance);
@@ -221,6 +204,28 @@ function gravity()
   {
     objects.push.apply(objects, tempObjects);
   }
+}
+
+
+function createNewObject(o1, o2, tempObjects)
+{
+	      var newObject = new Object(0,0,0,0,0);
+		  newObject.mass = o1.mass+o2.mass;
+          newObject.x=(o1.x*o1.mass+o2.x*o2.mass)/(newObject.mass);
+          newObject.y=(o1.y*o1.mass+o2.y*o2.mass)/(newObject.mass);
+          newObject.vx=(o1.vx*o1.mass+o2.vx*o2.mass)/(newObject.mass);
+          newObject.vy=(o1.vy*o1.mass+o2.vy*o2.mass)/(newObject.mass);
+          newObject.radius=Math.pow(((3*(newObject.mass))/(4*Math.PI)),1/3);
+
+          if(o1.mass > 5 || o2.mass > 5)
+          {
+            newObject.trackX = o1.mass > o2.mass ? o1.trackX : o2.trackX;
+            newObject.trackY = o1.mass > o2.mass ? o1.trackY : o2.trackY;
+          }
+
+          o1.merged=true;
+          o2.merged=true;
+          tempObjects.push(newObject);
 }
 
 function updatePosition(dT)

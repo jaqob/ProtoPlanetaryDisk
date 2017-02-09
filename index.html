@@ -9,6 +9,7 @@ html, body {
   margin: 0px;
   color: white;
   background: black
+
 }
 #myCanvas {
   width:  100%;
@@ -17,21 +18,59 @@ html, body {
   background: black
 }
 #configDiv {
+	font-family:Arial;
+
   margin: 10px;
   color: white;
   background: black
+
 }
+
+.myNumberInput {
+	border-radius:10px;
+	border:2px solid #333029;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:5px 10px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+.myButton {
+	border-radius:10px;
+	border:2px solid #333029;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:5px 10px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+
+
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
 
 
 </style>
 
 <div id="configDiv">
-  G:<br>
-  <input type="number" id="inputG" value="20"><br>
-  Objects in protoplanetary disk:<br>
-  <input type="number" id="nrObjects" value="2000"><br>
-
-<button onclick="startSimulation()">Start</button>
+<h3>Simulate a VERY rudimentary protoplanetary disk</h3>
+  G: 
+  <input type="number" id="inputG" value="20" class="myNumberInput"> m<sup>3</sup>*kg<sup>−1</sup>*s<sup>−2</sup> <br>
+  Objects in protoplanetary disk:
+  <input type="number" id="nrObjects" value="2000" class="myNumberInput"><br>
+<br>
+<button onclick="startSimulation()" class="myButton">Start</button>
 <br><br>
 <div>
 Available keys: <br>
