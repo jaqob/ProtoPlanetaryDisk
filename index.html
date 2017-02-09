@@ -1,0 +1,36 @@
+<style>
+html, body {
+  width:  100%;
+  height: 100%;
+  margin: 0px;
+  color: white;
+  background: black
+}
+#myCanvas {
+  width:  100%;
+  height: 100%;
+  margin: 0px;
+  background: black
+}
+#configDiv {
+  margin: 10px;
+  color: white;
+  background: black
+}
+
+
+</style>
+
+<div id="configDiv">
+  G:<br>
+  <input type="number" id="inputG" value="20"><br>
+  Objects in protoplanetary disk:<br>
+  <input type="number" id="nrObjects" value="2000"><br>
+
+<button onclick="startSimulation()">Start</button>
+</div>
+
+
+<canvas id="myCanvas"></canvas>
+<script src="Object.js"></script>
+<script src="main.js"></script>
