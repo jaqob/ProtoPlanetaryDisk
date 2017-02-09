@@ -1,3 +1,4 @@
+"use strict";
 var lastTime = 0;
 var count = 0;
 var lastTimeCount = 0;
@@ -19,21 +20,8 @@ var c;
 var ctx;
 
 var showTracks = false;
-var PIx2 = Math.PI*2
+var PIx2 = Math.PI*2;
 
-
-/*
-var c = document.getElementById("myCanvas");
-c.width  = window.innerWidth;
-c.height = window.innerHeight;
-var ctx = c.getContext("2d");
-
-
-
-createProtoDisk();
-calculateViewportOffset(maxMassObject);
-update();
-*/
 function startSimulation()
 {
   G = document.getElementById("inputG").value;
@@ -60,8 +48,7 @@ function createProtoDisk(nrObjects)
   var startX = 0;
   var startY = 0;
 
-  var particle = new Object(5, startX, startY, 0, 0);
-  objects.push(particle);
+  objects.push(new Object(5, startX, startY, 0, 0));
 
   for (var i = 0; i < nrObjects; i++){
     var rand = Math.random()*2*Math.PI;
@@ -69,8 +56,7 @@ function createProtoDisk(nrObjects)
     var x = (5+200*rand2)*Math.cos(rand);
     var y = (5+200*rand2)*Math.sin(rand);
     var distance = Math.sqrt(x*x+y*y);
-    var particle = new Object(Math.random(), startX+x, startY+y, -y*(distance/100000), x*(distance/100000));
-    objects.push(particle);
+    objects.push(new Object(Math.random(), startX+x, startY+y, -y*(distance/100000), x*(distance/100000)));
   }
 }
 
@@ -147,7 +133,6 @@ function update()
   updatePosition(dT);
 
   maxMassObject = findMaxMassObject();
-  globalMaxMass = maxMassObject.mass;
   calculateViewportOffset(maxMassObject);
 
   requestAnimationFrame(update);
@@ -166,10 +151,14 @@ function gravity()
   var tempObjects = [];
   var distance;
   var acceleration;
-  for (var i = 0; i < objects.length; i++)
+  
+  //Uneccesary optimization
+  var objectsLength = objects.length
+  
+  for (var i = 0; i < objectsLength; i++)
   {
     var o1 = objects[i];
-    for (var j = 0; j < objects.length; j++) {
+    for (var j = 0; j < objectsLength; j++) {
       var o2 = objects[j];
       if(i!=j && !o1.merged)
       {
@@ -177,14 +166,12 @@ function gravity()
         var dy = o2.y - o1.y;
 
         distance = Math.sqrt(dx*dx + dy*dy);
-
         if(distance<(o1.radius+o2.radius) && !o1.merged && !o2.merged)
         {
 			createNewObject(o1, o2, tempObjects);
         }
 
         acceleration = G*o2.mass/(distance*distance);
-
         o1.ax+=(acceleration*(dx/distance));
         o1.ay+=(acceleration*(dy/distance));
       }
@@ -261,6 +248,7 @@ function updatePosition(dT)
 function findMaxMassObject()
 {
   var maxMass = 0;
+  var maxIndex = 0;
 
   for (var index = 0; index < objects.length; index++)
   {
@@ -312,7 +300,7 @@ document.onkeyup = document.onkeydown = function (e)
   if (keyMap[84])
   {
     showTracks = !showTracks;
-	
+
     if(showTracks)
     {
       trackIndex = 0;
@@ -324,4 +312,4 @@ document.onkeyup = document.onkeydown = function (e)
       }
     }
   }
-}
+};
