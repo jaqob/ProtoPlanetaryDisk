@@ -1,11 +1,10 @@
-"use strict";
+'use strict';
 var lastTime = 0;
 var count = 0;
 var lastTimeCount = 0;
 var fps = 0;
 var zoom = 1;
 var keyMap = [];
-//var globalMaxMass = 0;
 var maxMassObject = new Object(0, 0, 0, 0, 0);
 var dT = 1;
 var speed = 1;
@@ -271,7 +270,6 @@ function calculateViewportOffset(object)
 document.onkeyup = document.onkeydown = function (e)
 {
   keyMap[e.keyCode] = e.type == 'keydown';
-  //console.log("UP:" + map[38] + " DOWN:" + map[40] + " LEFT:" + map[39] + " RIGHT:" + map[37]);
   if (keyMap[38])
   {
     zoom=zoom*2;
