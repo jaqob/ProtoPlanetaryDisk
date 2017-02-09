@@ -18,7 +18,7 @@ var objects = [];
 var c;
 var ctx;
 
-var showTracks = true;
+var showTracks = false;
 var PIx2 = Math.PI*2
 
 
@@ -307,6 +307,7 @@ document.onkeyup = document.onkeydown = function (e)
   if (keyMap[84])
   {
     showTracks = !showTracks;
+	
     if(showTracks)
     {
       trackIndex = 0;
