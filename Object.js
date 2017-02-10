@@ -11,5 +11,5 @@ function Object(radius, x, y, vx, vy){
 	this.trackX = [];
 	this.trackY = [];
 	this.trackIndex = 0;
-
+	this.color = '#FF6A6A';
 }
