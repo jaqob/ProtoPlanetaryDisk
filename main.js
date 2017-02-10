@@ -29,7 +29,7 @@ function startSimulation()
 {
     G = document.getElementById("inputG").value;
     var nrObjects = document.getElementById("nrObjects").value;
-    avgSpeed = document.getElementById("avgSpeed").value / 100;
+    avgSpeed = document.getElementById("avgSpeed").value / 10000;
 
     var div = document.getElementById("configDiv");
 
@@ -62,7 +62,7 @@ function createProtoDisk(nrObjects, avgSpeed)
         var x = (5 + 200 * rand2) * Math.cos(rand);
         var y = (5 + 200 * rand2) * Math.sin(rand);
         var distance = Math.sqrt(x * x + y * y);
-        objects.push(new Object(Math.random(), startX + x, startY + y, -y * (distance / 100000) * avgSpeed, x * (distance / 100000) * avgSpeed));
+        objects.push(new Object(Math.random(), startX + x, startY + y, -y * (Math.pow(distance,-1/2)) * avgSpeed, x * (Math.pow(distance,-1/2)) * avgSpeed));
     }
 }
 
