@@ -8,7 +8,6 @@ var keyMap = [];
 var maxMassObject = new Object(0, 0, 0, 0, 0);
 var dT = 1;
 var speed = 1;
-var trackIndex = 0;
 var G = 20;
 
 var offsetDeltaX = 0;
@@ -24,6 +23,7 @@ var avgSpeed;
 var centerObjectIndex;
 var objectInFocus = new Object(0, 0, 0, 0, 0);
 var started = false;
+
 
 function startSimulation()
 {
@@ -45,6 +45,7 @@ function startSimulation()
     objectInFocus.color = '#FFFFFF';
     calculateViewportOffset(objectInFocus);
     started = true;
+		
     update();
 }
 
@@ -67,7 +68,7 @@ function createProtoDisk(nrObjects, avgSpeed)
 }
 
 function update()
-{
+{	
     dT = (performance.now() - lastTime) / (1000 / 60);
     lastTime = performance.now();
 
@@ -85,7 +86,6 @@ function update()
         lastTimeCount = performance.now();
         fps = count;
         count = 0;
-
     }
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.font = "12px Arial";
@@ -105,7 +105,6 @@ function update()
         var ty = Math.trunc((o.y / zoom + offsetDeltaY));
         if (tx < 0 || tx > c.width || ty < 0 || ty > c.height)
         {}
-
         else
         {
             ctx.beginPath();
@@ -121,10 +120,10 @@ function update()
                 ctx.strokeStyle = '#FFFFFF';
                 ctx.beginPath();
 
-                for (var index2 = 0; index2 < o.trackX.length; index2++)
+                for (var index2 = 0; index2 < o.trackX.length-1; index2++)
                 {
-                    ctx.moveTo(Math.floor(o.trackX[index2] / zoom + offsetDeltaX), Math.floor(o.trackY[index2] / zoom + offsetDeltaY));
-                    ctx.lineTo(Math.floor(o.trackX[index2] / zoom + offsetDeltaX) + 0.4, Math.floor(o.trackY[index2] / zoom + offsetDeltaY) + 0.4);
+                    ctx.moveTo(Math.trunc(o.trackX[index2] / zoom + offsetDeltaX), Math.trunc(o.trackY[index2] / zoom + offsetDeltaY));
+                    ctx.lineTo(Math.trunc(o.trackX[index2+1] / zoom + offsetDeltaX), Math.trunc(o.trackY[index2+1] / zoom + offsetDeltaY));
                 }
                 ctx.closePath();
                 ctx.stroke();
@@ -132,7 +131,6 @@ function update()
         }
 
     }
-
     gravity();
     updatePosition(dT);
 
@@ -233,11 +231,6 @@ function createNewObject(o1, o2, tempObjects)
 
 function updatePosition(dT)
 {
-    if (trackIndex > 1000)
-    {
-        trackIndex = 0;
-    }
-
     for (var index = 0; index < objects.length; index++)
     {
         var o = objects[index];
@@ -248,17 +241,19 @@ function updatePosition(dT)
         o.ay = 0;
 
         if (showTracks)
-        {
-            o.trackX[trackIndex] = o.x;
-            o.trackY[trackIndex] = o.y;
+        {			
+			o.trackX.push(o.x);
+            o.trackY.push(o.y);
+			if(o.trackX.length > 1000)
+			{
+				o.trackX.shift();
+				o.trackY.shift();
+			}
         }
 
         o.x = o.x + o.vx * dT * speed;
         o.y = o.y + o.vy * dT * speed;
     }
-
-    trackIndex++;
-
 }
 
 function findMaxMassObject()
@@ -350,7 +345,6 @@ document.onkeyup = document.onkeydown = function (e)
 
         if (showTracks)
         {
-            trackIndex = 0;
             //Clear tracks
             for (var index = 0; index < objects.length; index++)
             {
