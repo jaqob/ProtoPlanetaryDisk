@@ -323,7 +323,7 @@ document.onkeyup = document.onkeydown = function (e)
 
     if (keyMap[37])
     {
-        //speed=speed/2;
+        speed=speed/2;
     }
 
     if (keyMap[39])
