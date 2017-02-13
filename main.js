@@ -41,6 +41,13 @@ function startSimulation()
     ctx = c.getContext("2d");
 
     createProtoDisk(nrObjects, avgSpeed);
+	
+	        //objects.push(new Object(18, 0, 0, 0, 0));
+	        //objects.push(new Object(9, 200, 200, -1, 0));
+			//objects.push(new Object(4, 400, 100, -1, 0));
+
+	
+	
     objectInFocus = findMaxMassObject();
     objectInFocus.color = '#FFFFFF';
     calculateViewportOffset(objectInFocus);
@@ -119,12 +126,27 @@ function update()
             {
                 ctx.strokeStyle = '#FFFFFF';
                 ctx.beginPath();
-
+				if(false)
+				{
                 for (var index2 = 0; index2 < o.trackX.length-1; index2++)
                 {
                     ctx.moveTo(Math.trunc(o.trackX[index2] / zoom + offsetDeltaX), Math.trunc(o.trackY[index2] / zoom + offsetDeltaY));
                     ctx.lineTo(Math.trunc(o.trackX[index2+1] / zoom + offsetDeltaX), Math.trunc(o.trackY[index2+1] / zoom + offsetDeltaY));
                 }
+				}
+				else
+				{
+					
+				for (var index2 = 0; index2 < o.trackX.length-1; index2++)
+				{							
+					var tempTrackOffsetX1 = (objectInFocus.trackX[index2]-objectInFocus.x)/zoom;
+					var tempTrackOffsetY1 = (objectInFocus.trackY[index2]-objectInFocus.y)/zoom;
+					var tempTrackOffsetX2 = (objectInFocus.trackX[index2+1]-objectInFocus.x)/zoom;
+					var tempTrackOffsetY2 = (objectInFocus.trackY[index2+1]-objectInFocus.y)/zoom;
+
+					ctx.moveTo(Math.trunc(o.trackX[index2] / zoom + offsetDeltaX)-tempTrackOffsetX1, Math.trunc(o.trackY[index2] / zoom + offsetDeltaY)-tempTrackOffsetY1);
+                    ctx.lineTo(Math.trunc(o.trackX[index2+1] / zoom + offsetDeltaX)-tempTrackOffsetX2, Math.trunc(o.trackY[index2+1] / zoom + offsetDeltaY)-tempTrackOffsetY2);
+			}}
                 ctx.closePath();
                 ctx.stroke();
             }
@@ -240,7 +262,7 @@ function updatePosition(dT)
         o.ax = 0;
         o.ay = 0;
 
-        if (showTracks)
+        if (showTracks && count%4==0)
         {			
 			o.trackX.push(o.x);
             o.trackY.push(o.y);
