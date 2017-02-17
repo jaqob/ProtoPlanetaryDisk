@@ -45,7 +45,7 @@ function startSimulation()
     objectInFocus.color = '#FFFFFF';
     calculateViewportOffset(objectInFocus);
     started = true;
-		
+
     update();
 }
 
@@ -68,7 +68,7 @@ function createProtoDisk(nrObjects, avgSpeed)
 }
 
 function update()
-{	
+{
     dT = (performance.now() - lastTime) / (1000 / 60);
     lastTime = performance.now();
 
@@ -132,8 +132,9 @@ function update()
 
     }
     gravity();
-    updatePosition(dT);
 
+    //updatePosition(dT);
+updatePosition(1);
     maxMassObject = findMaxMassObject();
 
     calculateViewportOffset(objectInFocus);
@@ -241,7 +242,7 @@ function updatePosition(dT)
         o.ay = 0;
 
         if (showTracks)
-        {			
+        {
 			o.trackX.push(o.x);
             o.trackY.push(o.y);
 			if(o.trackX.length > 1000)
