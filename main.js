@@ -211,14 +211,11 @@ function gravity()
                 }
             }
         }
-        for (var i = 0; i < objects.length; i++)
-        {
-            if (objects[i].merged)
-            {
-                objects.splice(i, 1);
-                i--;
-            }
-        }
+		
+		objects = objects.filter(function (object) {
+  return !object.merged;
+});
+		
 
         if (tempObjects.length > 0)
         {
